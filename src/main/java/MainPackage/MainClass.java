@@ -171,11 +171,11 @@ public class MainClass extends AbstractScript implements FrameListener {
 
 
         for (Task t : taskList) {
-            //String taskName = t.name;
-            //System.out.println(ScriptManager.INSTANCE.getRuntime(true) + " Checking: " + taskName);
+            String taskName = t.name;
+            System.out.println(ScriptManager.INSTANCE.getRuntime(true) + " Checking: " + taskName);
 
             if (t.activate()) {
-                //System.out.println(ScriptManager.INSTANCE.getRuntime(true) + " Activated: " + taskName);
+                System.out.println(ScriptManager.INSTANCE.getRuntime(true) + " Activated: " + taskName);
                 t.execute();
 
                 if (ScriptManager.INSTANCE.isStopping()) {
@@ -186,7 +186,7 @@ public class MainClass extends AbstractScript implements FrameListener {
             }
         }
 
-        //System.out.println(ScriptManager.INSTANCE.getRuntime(true) + " Finished looping through task list.");
+        System.out.println(ScriptManager.INSTANCE.getRuntime(true) + " Finished looping through task list.");
     }
 
     public void collectPaintCheckboxChanges() {

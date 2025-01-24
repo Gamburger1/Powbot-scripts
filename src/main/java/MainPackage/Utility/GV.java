@@ -153,7 +153,7 @@ public class GV {
 
     public static boolean safespotTilesChanged = true;
 
-    public static boolean repairBarrowsArmour;
+    public static boolean repairBarrowsArmour = false;
 
     public static int TOTAL_LOOT = 0;
 
