@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 
-@ScriptManifest(name = "Blood Moon", description = "",
+@ScriptManifest(name = "Kebab Blood Moon", description = "",
         version = "0.0.1", category = ScriptCategory.Runecrafting)
 
 @ScriptConfiguration(
