@@ -1,12 +1,12 @@
 package MainPackage;
 
+import MainPackage.HelperTasks.walkToDestination;
+import MainPackage.RepairBarrowsTasks.InteractBob;
+import MainPackage.RepairBarrowsTasks.withdrawItems;
 import MainPackage.Tasks.*;
 import MainPackage.Utility.Func;
 import MainPackage.Utility.GV;
-import com.google.common.eventbus.Subscribe;
-import com.squareup.okhttp.internal.framed.FrameWriter;
 import org.powbot.api.*;
-import org.powbot.api.event.*;
 import org.powbot.api.rt4.*;
 import org.powbot.api.rt4.walking.model.Skill;
 import org.powbot.api.script.*;
@@ -17,12 +17,8 @@ import org.powbot.mobile.SettingsManager;
 import org.powbot.mobile.ToggleId;
 import org.powbot.mobile.drawing.FrameListener;
 import org.powbot.mobile.drawing.FrameManager;
-import org.powbot.mobile.drawing.Rendering;
 import org.powbot.mobile.script.ScriptManager;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 
@@ -139,6 +135,10 @@ public class MainClass extends AbstractScript implements FrameListener {
         taskList.add(new BloodMoonLobby(this));
         taskList.add(new StreamCavern(this));
         taskList.add(new StreamCavernWalk(this));
+        taskList.add(new walkToDestination(this));
+        taskList.add(new InteractBob(this));
+        taskList.add(new withdrawItems(this));
+        taskList.add(new CamTorum(this));
 
     }
 
@@ -254,8 +254,14 @@ public class MainClass extends AbstractScript implements FrameListener {
                 GV.LUNAR_CHEST_PENDING = true;
                 GV.KILLCOUNTER++;
             }
+            if(msg.contains("There you go, happy doing business with you!")) {
+                GV.walkToDestination = true;
+                GV.walkingDestination = new Tile(1439,9552,1);
+                GV.repairBarrowsArmour = false;
+            }
         });
     }
+
 
     public void collectNpcAnimationChanges() {
         EventFlows.collectNpcAnimationChanges(event -> {

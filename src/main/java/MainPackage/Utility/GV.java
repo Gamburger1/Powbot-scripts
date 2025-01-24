@@ -157,4 +157,8 @@ public class GV {
 
     public static int TOTAL_LOOT = 0;
 
+    public static Tile walkingDestination;
+
+    public static boolean walkToDestination;
+
 }

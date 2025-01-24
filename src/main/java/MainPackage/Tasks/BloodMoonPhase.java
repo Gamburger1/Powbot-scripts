@@ -105,6 +105,19 @@ public class BloodMoonPhase extends Task {
             }
         }
 
+        // Move to the safe spot tile
+        else if (!Players.local().tile().equals(safeTile)) {
+            Point safeTilePoint = safeTile.matrix().mapPoint();
+            if (Input.tap(safeTilePoint)) {
+                System.out.println("Stepping to safetile");
+                if(Condition.wait(() -> Players.local().inMotion(), 100, 4)){
+                    System.out.println("Moving to safespot tile: " + safeTile);
+                    Condition.wait(() -> Players.local().tile().equals(safeTile) || GV.safespotTilesChanged, 100, 50);
+                }
+            } else{
+                System.out.println("Failed to Step to safetile");
+            }
+        }
         // Handle special attacks and weapon switching
         else if (GV.useSpecialAttack && Combat.specialPercentage()>=25 && !Func.specialAttackEnabled() && Equipment.itemAt(Equipment.Slot.MAIN_HAND).name().contains(specWeapon.first().name())) {
 
@@ -140,19 +153,6 @@ public class BloodMoonPhase extends Task {
                 Condition.wait(() -> Players.local().healthPercent()>40 || Func.stepUnder() || GV.safespotTilesChanged, 150, 5);
             } else{
                 System.out.println("Failed to interact with Cooked bream.");
-            }
-        }
-        // Move to the safe spot tile
-        else if (!Players.local().tile().equals(safeTile)) {
-            Point safeTilePoint = safeTile.matrix().mapPoint();
-            if (Input.tap(safeTilePoint)) {
-                System.out.println("Stepping to safetile");
-                if(Condition.wait(() -> Players.local().inMotion(), 100, 4)){
-                    System.out.println("Moving to safespot tile: " + safeTile);
-                    Condition.wait(() -> Players.local().tile().equals(safeTile) || GV.safespotTilesChanged, 100, 50);
-                }
-            } else{
-                System.out.println("Failed to Step to safetile");
             }
         }
         // Handle step-under mechanics

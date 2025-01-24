@@ -21,7 +21,8 @@ public class EarthCavernWalk extends Task {
     @Override
     public boolean activate() {
 
-        return Func.atEarthCavern();
+        return Func.atEarthCavern()
+                && !GV.repairBarrowsArmour;
     }
 
     @Override
@@ -46,6 +47,11 @@ public class EarthCavernWalk extends Task {
         Func.getTotalSupplies();
 
         Func.checkBarrowsEquipment();
+
+        if(GV.repairBarrowsArmour){
+            System.out.println("Need to repair barrows armour, exit task..");
+            return;
+        }
 
         if (Prayer.prayersActive()) { // Check if quick prayer is active
             System.out.println("Deactivating Quick Prayer...");

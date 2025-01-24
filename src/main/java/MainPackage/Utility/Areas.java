@@ -22,6 +22,11 @@ public class Areas {
 
     public static Area BOSS_CHAMBER = new Area(new Tile(1422, 9649, 1), new Tile(1457, 9605, 1));
 
+    public static Area CAM_TORUM = new Area(new Tile(1408, 9605, 1), new Tile(1472, 9541, 1));
+
+
+
+
 
 
 

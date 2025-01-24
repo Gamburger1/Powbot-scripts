@@ -39,6 +39,8 @@ public class Func {
     public static boolean atLunarChestArea() {return Areas.CHEST_AREA.contains(Players.local());}
     public static boolean atBloodMoonLobby() {return Areas.BLOODMOON_LOBBY.contains(Players.local());}
     public static boolean atStreamCavern() {return Areas.STREAM_CAVERN.contains(Players.local());}
+    public static boolean atCamTorum() {return Areas.CAM_TORUM.contains(Players.local());}
+
 
 
 
@@ -180,8 +182,107 @@ public class Func {
 
         if (GV.RESTOCK_SUPPLIES && hasItemWith25) {
                 GV.repairBarrowsArmour = true;
-                System.out.println("Item with '25' found in equipment and restock supplies is true. Walking to closest bank.");
+                GV.walkToDestination=true;
+                Tile lumbridgeBankTile = new Tile(3208,3220,2);
+                GV.walkingDestination = lumbridgeBankTile;
+                System.out.println("Item with '25' found in equipment and restock supplies is true. Walking to closest GE.");
         }
+    }
+
+    public static boolean barrowsGearRepaired() {
+        // Check inventory for items containing "25" in their name
+        boolean noItemsInInventory = Inventory.stream().nameContains("25").isEmpty();
+
+        // Define the equipment slots to check
+        Equipment.Slot[] slotsToCheck = {
+                Equipment.Slot.HEAD,
+                Equipment.Slot.TORSO,
+                Equipment.Slot.LEGS
+        };
+
+        boolean noItemsInEquipment = true;
+
+        for (Equipment.Slot slot : slotsToCheck) {
+            // Get the item in the current slot
+            Item equipmentItem = Equipment.itemAt(slot);
+
+            // Check if the item's name contains "25"
+            if (equipmentItem.valid() && equipmentItem.name().contains("25")) {
+                noItemsInEquipment = false;
+                break;
+            }
+        }
+
+        return noItemsInInventory && noItemsInEquipment;
+    }
+
+    public static boolean checkAndRemoveBarrowsGear() {
+        // Define the equipment slots to check
+        Equipment.Slot[] slotsToCheck = {
+                Equipment.Slot.HEAD,
+                Equipment.Slot.TORSO,
+                Equipment.Slot.LEGS
+        };
+
+        boolean allItemsRemoved = true;
+
+        for (Equipment.Slot slot : slotsToCheck) {
+            // Get the item in the current slot
+            Item equipmentItem = Equipment.itemAt(slot);
+
+            // Check if the item's name contains "25"
+            if (equipmentItem.valid() && equipmentItem.name().contains("25")) {
+                String itemName = equipmentItem.name();
+
+                // Interact with the item to "Remove" it
+                if (Game.tab(Game.Tab.EQUIPMENT) && equipmentItem.interact("Remove")) {
+                    // Wait until the item appears in the inventory
+                    boolean itemRemoved = Condition.wait(() -> Inventory.stream().name(itemName).isNotEmpty(), 200, 4);
+                    if (!itemRemoved) {
+                        System.out.println("Failed to confirm " + itemName + " appeared in the inventory.");
+                        allItemsRemoved = false;
+                    }
+                } else {
+                    System.out.println("Failed to interact with " + itemName + " to remove it.");
+                    allItemsRemoved = false;
+                }
+            }
+        }
+
+        return allItemsRemoved;
+    }
+
+    public static boolean checkAndWearItems() {
+        // Define the target names to look for in the inventory
+        String[] targetNames = {"Dharok", "Torag", "Ahrim", "Verac"};
+
+        for (String targetName : targetNames) {
+            // Find an item in the inventory containing the target name
+            Item item = Inventory.stream()
+                    .nameContains(targetName)
+                    .first();
+
+            if (item.valid()) {
+                // Attempt to equip the item
+                if (Game.tab(Game.Tab.INVENTORY) && item.interact("Wear")) {
+                    // Wait until the item is no longer in the inventory
+                    Condition.wait(() -> Inventory.stream().name(item.name()).isEmpty(), 200, 6);
+                } else {
+                    System.out.println("Failed to interact with " + item.name() + " to equip it.");
+                    return false;
+                }
+            }
+        }
+
+        // Return true only if no items with the target names are left in the inventory
+        return Inventory.stream().filter(item -> {
+            for (String targetName : targetNames) {
+                if (item.name().contains(targetName)) {
+                    return true;
+                }
+            }
+            return false;
+        }).isEmpty();
     }
 
     public static boolean deathAllItemsRetrieved(){

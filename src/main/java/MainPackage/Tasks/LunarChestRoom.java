@@ -74,7 +74,9 @@ public class LunarChestRoom extends Task {
                     int itemTotalPrice = GrandExchange.getItemPrice(itemID) * itemAmount;
                     System.out.println("Lunar chest contains items, total item price: " + itemTotalPrice +  ", Item amount =  " + itemAmount);
                     if(Widgets.component(868,20).interact("Bank-all")){
-                        GV.TOTAL_LOOT += itemTotalPrice;
+                        if(itemTotalPrice > 0){
+                            GV.TOTAL_LOOT += itemTotalPrice;
+                        }
                         GV.LUNAR_CHEST_PENDING=false;
                         Condition.wait(() -> Widgets.component(868,5,0).name().isEmpty(), 100, 6);
                     }

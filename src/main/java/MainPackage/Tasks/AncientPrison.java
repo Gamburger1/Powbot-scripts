@@ -52,10 +52,7 @@ public class AncientPrison extends Task {
         if(GV.RESTORE_RUNENERGY){
             if(stoveWalkingTile.distanceTo(Players.local())>8){
                 System.out.println("Cooking stove not in view, webwalking to stove.");
-                if(Movement.step(stoveWalkingTile)){
-                    System.out.println("Sleeping after stepping towards stove entrance");
-                    Condition.sleep(Random.nextInt(250,450));
-                }
+                Movement.builder(stoveWalkingTile).setAutoRun(true).setWalkUntil(() -> stoveWalkingTile.distanceTo(Players.local())<=8).move();
             }
             if(stoveWalkingTile.matrix().inViewport()){
                 System.out.println("Stove in view, interacting with entrance.");
