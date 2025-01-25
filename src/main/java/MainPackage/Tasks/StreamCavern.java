@@ -215,7 +215,7 @@ public class StreamCavern extends Task {
         }
 
         // Step 6: Drop leftover supplies
-        if (moonlightPotionFour.count() >= totalPotionNeeded && Inventory.stream().anyMatch(item ->
+        if (moonlightPotionFour.count() > totalPotionNeeded || Inventory.stream().anyMatch(item ->
                 Arrays.asList(herbloreSuppliesToDrop).contains(item.name()))) {
 
             System.out.println("Dropping herblore supplies");

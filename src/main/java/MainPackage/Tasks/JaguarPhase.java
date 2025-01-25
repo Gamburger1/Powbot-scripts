@@ -33,7 +33,8 @@ public class JaguarPhase extends Task {
                 && Npcs.stream().name("Blood jaguar").within(Areas.BLOOD_MOON_AREA).nearest().first().animation() != 10960
                 && Npcs.stream().id(13015).within(Areas.BLOOD_MOON_AREA).nearest().first().valid()
                 && Func.atBloodMoonArea()
-                && !GV.BLOOD_MOON_DEAD;
+                && !GV.BLOOD_MOON_DEAD
+                && !Npcs.stream().name("Enraged Blood Moon").within(Areas.BLOOD_MOON_AREA).nearest().first().valid();
     }
 
     @Override

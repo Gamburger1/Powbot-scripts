@@ -33,7 +33,8 @@ public class BloodRainPhase extends Task {
                 && Func.bloodMoonInvalid()
                 && !Npcs.stream().id(safespotNpcID).nearest().within(Areas.BLOOD_MOON_AREA).first().valid()
                 && Func.atBloodMoonArea()
-                && !GV.BLOOD_MOON_DEAD;
+                && !GV.BLOOD_MOON_DEAD
+                && !Npcs.stream().name("Enraged Blood Moon").within(Areas.BLOOD_MOON_AREA).nearest().first().valid();
     }
 
     @Override
