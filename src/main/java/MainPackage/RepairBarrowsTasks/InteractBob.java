@@ -22,9 +22,7 @@ public class InteractBob extends Task {
     @Override
     public boolean activate() {
         return GV.repairBarrowsArmour
-                && Npcs.stream().name("Bob").nearest().first().inViewport()
-                && Inventory.stream().name("Calcified moth").isNotEmpty()
-                && Inventory.stream().name("Coins").count(true)>=300000;
+                && Npcs.stream().name("Bob").nearest().first().inViewport();
     }
 
     @Override
@@ -35,7 +33,7 @@ public class InteractBob extends Task {
 
         Npc bob = Npcs.stream().name("Bob").nearest().first();
 
-        if(Func.checkAndRemoveBarrowsGear() && Inventory.stream().nameContains("25").isNotEmpty()){ //  checks and removes all barrrows gear where name contains 25
+        if(Func.checkAndRemoveBarrowsGear() && Inventory.stream().nameContains("25").isNotEmpty() && Inventory.stream().name("Coins").count(true)>=300000){ //  checks and removes all barrrows gear where name contains 25
             if(!Chat.chatting() && bob.interact("Repair")){
                 System.out.println("chat not open, interact with bob");
                 Condition.wait(() -> Chat.chatting(), 200, 6);
@@ -43,16 +41,13 @@ public class InteractBob extends Task {
             else if(Chat.chatting()){
                 System.out.println("chat open, repair all items");
                 if(Input.send("2")){
-                    Condition.wait(() -> Inventory.stream().nameContains("25").isEmpty() && !GV.repairBarrowsArmour, 200, 6);
+                    if(Condition.wait(() -> Inventory.stream().nameContains("25").isEmpty(), 200, 6)){
+                        GV.walkToDestination = true;
+                        GV.walkingDestination = new Tile(1439,9552,1);
+                        GV.repairBarrowsArmour = false;
+                    }
                 }
             }
-        }
-
-        if(!GV.repairBarrowsArmour){
-            Func.checkAndWearItems();
-            GV.walkToDestination = true;
-            GV.walkingDestination = new Tile(1439,9552,1);
-            GV.repairBarrowsArmour = false;
         }
 
 

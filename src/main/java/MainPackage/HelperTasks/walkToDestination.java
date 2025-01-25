@@ -20,8 +20,7 @@ public class walkToDestination extends Task {
 
     @Override
     public boolean activate() {
-        return GV.repairBarrowsArmour
-                && GV.walkToDestination;
+        return GV.walkToDestination;
     }
 
     @Override
