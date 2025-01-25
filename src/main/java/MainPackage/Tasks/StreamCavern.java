@@ -215,7 +215,7 @@ public class StreamCavern extends Task {
         }
 
         // Step 6: Drop leftover supplies
-        if (moonlightPotionFour.count() > totalPotionNeeded || Inventory.stream().anyMatch(item ->
+        if (moonlightPotionFour.count() >= totalPotionNeeded && Inventory.stream().anyMatch(item ->
                 Arrays.asList(herbloreSuppliesToDrop).contains(item.name()))) {
 
             System.out.println("Dropping herblore supplies");
@@ -223,12 +223,11 @@ public class StreamCavern extends Task {
                     .filter(item -> Arrays.asList(herbloreSuppliesToDrop).contains(item.name()))
                     .forEach(item -> item.interact("Drop"));
 
-            int currentPotionCount = (int) Inventory.stream().name("Moonlight potion(4)").count();
-            if(moonlightPotionFour.count()>totalPotionNeeded){
-                Inventory.stream().name("Moonlight potion(4)").first().interact("Drop");
-                Condition.wait(() -> Inventory.stream().name("Moonlight potion(4)").count() != currentPotionCount, 100, 20);
-            }
+        }
 
+        if(moonlightPotionFour.count()>totalPotionNeeded){
+            Inventory.stream().name("Moonlight potion(4)").first().interact("Drop");
+            Condition.wait(() -> Inventory.stream().name("Moonlight potion(4)").count() <= totalPotionNeeded, 100, 20);
         }
 
         // Restock food if needed
