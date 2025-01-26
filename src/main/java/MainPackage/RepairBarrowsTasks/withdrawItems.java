@@ -9,6 +9,7 @@ import org.powbot.api.Tile;
 import org.powbot.api.rt4.Bank;
 import org.powbot.api.rt4.Inventory;
 import org.powbot.api.rt4.Widgets;
+import org.powbot.mobile.script.ScriptManager;
 
 public class withdrawItems extends Task {
 
@@ -34,6 +35,8 @@ public class withdrawItems extends Task {
 
         GV.CURRENT_TASK="withdrawItems";
 
+        int coinsAmount = 300000;
+
         if(!Bank.opened()){
             if(Bank.open()){
                 System.out.println("interacted with bank, waiting for it to open..");
@@ -46,13 +49,19 @@ public class withdrawItems extends Task {
                 Bank.withdraw("Calcified moth",1);
                 Condition.wait(() -> Inventory.stream().name("Calcified moth").isNotEmpty(), 200, 6);
             }
-            if(Inventory.stream().name("Coins").count(true)<300000){
-                Bank.withdraw("Coins",300000);
-                Condition.wait(() -> Inventory.stream().name("Coins").count()>=300000, 200, 6);
+            if(Inventory.stream().name("Coins").count(true) < coinsAmount){
+                if(Bank.stream().name("Coins").count(true) >= coinsAmount){
+                    Bank.withdraw("Coins",coinsAmount);
+                    Condition.wait(() -> Inventory.stream().name("Coins").count() >= coinsAmount, 200, 6);
+                } else{
+                    System.out.println("Not enough money to repair barrows gear, stopping script");
+                    ScriptManager.INSTANCE.stop();
+                }
+
             }
         }
 
-        if(Inventory.stream().name("Coins").count(true)>=300000 && Inventory.stream().name("Calcified moth").isNotEmpty()){
+        if(Inventory.stream().name("Coins").count(true) >= coinsAmount && Inventory.stream().name("Calcified moth").isNotEmpty()){
             Tile bobTile = new Tile(3233,3203,0);
             GV.walkingDestination = bobTile;
             GV.walkToDestination = true;

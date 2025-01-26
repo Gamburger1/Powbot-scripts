@@ -48,10 +48,7 @@ public class EarthCavernWalk extends Task {
 
         Func.checkBarrowsEquipment();
 
-        if(GV.repairBarrowsArmour){
-            System.out.println("Need to repair barrows armour, exit task..");
-            return;
-        }
+
 
         if (Prayer.prayersActive()) { // Check if quick prayer is active
             System.out.println("Deactivating Quick Prayer...");
@@ -63,6 +60,7 @@ public class EarthCavernWalk extends Task {
                 System.out.println("Failed to deactivate Quick Prayer.");
             }
         }
+
 
         if (Movement.energyLevel() < 70 && cookingStove.tile().distanceTo(Players.local().tile()) < 3) {
             System.out.println("Energy level low, interacting with cooking stove.");
@@ -107,6 +105,11 @@ public class EarthCavernWalk extends Task {
             } else {
                 System.out.println("No Moonlight potion found.");
             }
+        }
+
+        if(GV.repairBarrowsArmour){
+            System.out.println("Need to repair barrows armour, exit task..");
+            return;
         }
 
         if (walkingTile.distanceTo(Players.local())>12) {
