@@ -119,7 +119,7 @@ public class BloodMoonPhase extends Task {
             }
         }
         // Handle special attacks and weapon switching
-        else if (GV.useSpecialAttack && Combat.specialPercentage()>=25 && !Func.specialAttackEnabled() && Equipment.itemAt(Equipment.Slot.MAIN_HAND).name().contains(specWeapon.first().name())) {
+        else if (GV.useSpecialAttack && Combat.specialPercentage()>=25 && !Func.specialAttackEnabled()) {
 
             System.out.println("Special attack not active, enabling..");
             Component specialAttackButton = Widgets.component(897, 31);
@@ -130,7 +130,7 @@ public class BloodMoonPhase extends Task {
                 System.out.println("Interacting with special attack widget..");
                 Condition.wait(() -> Func.specialAttackEnabled()
                         || Func.stepUnder()
-                        || GV.safespotTilesChanged, 100, 10);
+                        || GV.safespotTilesChanged, 50, 6);
             } else{
                 System.out.println("Failed to interact with special attack widget..");
             }

@@ -58,7 +58,8 @@ public class StreamCavern extends Task {
         String[] herbloreSuppliesToDrop = {
                 "Pestle and mortar", "Vial of water", "Moonlight grub paste",
                 "Moonlight grub", "Vial", "Moonlight potion(3)",
-                "Moonlight potion(2)", "Moonlight potion(1)"
+                "Moonlight potion(2)", "Moonlight potion(1)", "Rope",
+                "Butterfly net", 
         };
 
         AtomicInteger currentDoses = new AtomicInteger();
