@@ -39,3 +39,19 @@ lib/
 # Ignore PowBot API-related files (if any exist)
 powbot-api/
 powbot-sdk/
+
+# Ignore build and IDE-related files
+.idea/
+*.iml
+.gradle/
+build/
+out/
+*.class
+
+# Ignore Gradle files
+.gradle/
+build/
+gradlew
+gradlew.bat
+gradle/
+
