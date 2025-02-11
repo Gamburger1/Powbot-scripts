@@ -1,42 +1,41 @@
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
+# Ignore IDE-specific files (IntelliJ, Eclipse, VSCode, etc.)
+.idea/
 *.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
 .vscode/
+.classpath
+.project
+.settings/
 
-### Mac OS ###
+# Ignore compiled Java files
+*.class
+*.jar
+
+# Ignore logs and temp files
+*.log
+logs/
+temp/
+*.tmp
+hs_err_pid*
+
+# Ignore OS-specific files
 .DS_Store
+Thumbs.db
+
+# Ignore build directories
+target/
+bin/
+out/
+
+# Ignore dependency directories
+node_modules/
+lib/
+.gradle/
+.mvn/
+
+# Ignore Java backup files
+*.~*
+*.swp
+
+# Ignore PowBot API-related files (if any exist)
+powbot-api/
+powbot-sdk/
